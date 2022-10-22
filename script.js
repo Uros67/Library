@@ -8,7 +8,7 @@ function Book(title, author, pages, read){
 
     console.log
 }
-
+//nove knjige rucno dodane
 let theHobbit= new Book("Hobbit", "J.R.R. Tolkin", 500, true);
 let AnnaK= new Book("Ana Karenjina", "Lav Tolstoj", 420, false);
 
@@ -26,38 +26,60 @@ Book.prototype.info= function(){
     
 }
 
-theHobbit.info();
+//Get form elements from HTML
+const bookTitle= document.getElementById("titleInput");
+const bookAuthor= document.getElementById("authorInput");
+const bookPages= document.getElementById("pagesInput");
+const bookReaded= document.getElementById("readedInput");
 
 function addBookToLib(){
-    myLibrary.push(theHobbit);
-    createNewBook(theHobbit);
-    myLibrary.push(AnnaK);
-    createNewBook(AnnaK);
+    let bookMaker= new Book(bookTitle.value, authorInput.value, pagesInput.value, readedInput.value);
+    myLibrary.push(bookMaker);
+    bookShelf.innerHTML="";
+    showMeBooks();
+    bookTitle.value="";
+    authorInput.value="";
+    pagesInput.value="";
+    readedInput.value="";
+    
 }
-function createNewBook(name){
+
+const bookButt= document.getElementById("submitBook");
+
+bookButt.addEventListener("click", addBookToLib);
+//bookButt.addEventListener("click", showMeBooks);
+
+function showMeBooks(){
+    for(let i=0; i<myLibrary.length; i++){
+        bookReview(myLibrary[i])
+    }
+}
+let bookShelf= document.querySelector(".myBooks");
+function bookReview(book){
     let newBook= document.createElement("div");
     newBook.className="book"
-    document.body.appendChild(newBook);
+    //document.body.appendChild(newBook);
+    bookShelf.appendChild(newBook);
 
     let naziv= document.createElement("div");
     newBook.appendChild(naziv);
     naziv.className= "info"
-    naziv.textContent= name.title;
+    naziv.textContent= book.title;
 
     let autor= document.createElement("div");
     newBook.appendChild(autor);
     autor.className= "info"
-    autor.textContent= name.author;
+    autor.textContent= book.author;
 
     let strane= document.createElement("div");
     newBook.appendChild(strane);
     strane.className= "info"
-    strane.textContent= name.pages;
+    strane.textContent= book.pages;
     
     let procitao= document.createElement("div");
     newBook.appendChild(procitao);
     procitao.className= "info"
-    procitao.textContent= name.read;
+    procitao.textContent= book.read;
 
     let readed= document.createElement("button");
     newBook.appendChild(readed);
@@ -70,5 +92,7 @@ function createNewBook(name){
     izbrisi.innerHTML= "DELETE";
 }
 
-addBookToLib();
+
+
+showMeBooks();
 console.log(myLibrary);
