@@ -32,6 +32,7 @@ const bookAuthor= document.getElementById("authorInput");
 const bookPages= document.getElementById("pagesInput");
 const bookReaded= document.getElementById("readedInput");
 
+//funkcija za prikaz knjiga u biblioteci
 function addBookToLib(){
     let bookMaker= new Book(bookTitle.value, authorInput.value, pagesInput.value, readedInput.value);
     myLibrary.push(bookMaker);
@@ -47,18 +48,20 @@ function addBookToLib(){
 const bookButt= document.getElementById("submitBook");
 
 bookButt.addEventListener("click", addBookToLib);
-//bookButt.addEventListener("click", showMeBooks);
 
+
+// funkcija za prikaz svih knjiga
 function showMeBooks(){
     for(let i=0; i<myLibrary.length; i++){
         bookReview(myLibrary[i])
     }
 }
 let bookShelf= document.querySelector(".myBooks");
+
+// funkcija za dodavanje knjige
 function bookReview(book){
     let newBook= document.createElement("div");
     newBook.className="book"
-    //document.body.appendChild(newBook);
     bookShelf.appendChild(newBook);
 
     let naziv= document.createElement("div");
@@ -90,9 +93,31 @@ function bookReview(book){
     newBook.appendChild(izbrisi);
     izbrisi.className= "butt"
     izbrisi.innerHTML= "DELETE";
+
+    //dodajemo atribut dugmetu
+
+    izbrisi.dataset.linkedName= book.title;
+
+    izbrisi.addEventListener("click", delBook);
+    // funkcija za brisanje knjige
+    function delBook(){
+        let delBookInd;
+        for(let i=0; i<myLibrary.length; i++){
+            
+            
+            if(myLibrary[i].title== izbrisi.dataset.linkedName){
+                delBookInd=i;
+                
+            }
+        }
+        console.log(delBookInd);
+        myLibrary.splice(delBookInd,1);
+        console.log(myLibrary);
+        bookShelf.innerHTML="";
+        showMeBooks();
+    }
 }
 
 
 
 showMeBooks();
-console.log(myLibrary);
