@@ -34,14 +34,20 @@ const bookReaded= document.getElementById("readedInput");
 
 //funkcija za prikaz knjiga u biblioteci
 function addBookToLib(){
-    let bookMaker= new Book(bookTitle.value, authorInput.value, pagesInput.value, readedInput.value);
-    myLibrary.push(bookMaker);
-    bookShelf.innerHTML="";
-    showMeBooks();
-    bookTitle.value="";
-    authorInput.value="";
-    pagesInput.value="";
-    readedInput.value="";
+    if(readedInput.value=="Readed" || readedInput.value=="Not Readed"){
+        let bookMaker= new Book(bookTitle.value, authorInput.value, pagesInput.value, readedInput.value);
+        myLibrary.push(bookMaker);
+        bookShelf.innerHTML="";
+        showMeBooks();
+        bookTitle.value="";
+        authorInput.value="";
+        pagesInput.value="";
+        readedInput.value="";
+    }
+    else{
+    alert("Book can be Readed or Not Readed")
+        readedInput.value="";
+    }
     
 }
 
@@ -88,6 +94,31 @@ function bookReview(book){
     newBook.appendChild(readed);
     readed.className= "butt"
     readed.innerHTML= "READED/NOT READED";
+
+    //dodajemo atribut dugmetu
+    readed.dataset.linkedName= book.title;
+
+    readed.addEventListener("click", haveIReaded);
+
+    function haveIReaded(){
+        for(let i=0; i<myLibrary.length; i++){
+            
+            
+            if(myLibrary[i].title== izbrisi.dataset.linkedName){
+                if(myLibrary[i].read=="Readed"){
+                    myLibrary[i].read= "Not Readed" ;
+                }
+                else{
+                    myLibrary[i].read= "Readed" ;
+                }
+                
+            }
+        }
+        bookShelf.innerHTML="";
+        showMeBooks();
+    }
+
+
 
     let izbrisi= document.createElement("button");
     newBook.appendChild(izbrisi);
